@@ -1,0 +1,124 @@
+{
+  "id": "53bb2e90-4b6e-11e5-89d9-2903d3f04d3f",
+  "name": "HockeyApp",
+  "friendlyName": "HockeyApp",
+  "description": "Deploy your alpha and beta builds of mobile apps to HockeyApp",
+  "author": "Jonathan Carter",
+  "helpMarkDown": "Replace with markdown to show in help",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [],
+  "version": {
+    "Major": "0",
+    "Minor": "7",
+    "Patch": "0"
+  },
+  "minimumAgentVersion": "1.83.0",
+  "instanceNameFormat": "Deploy $(binaryPath) to HockeyApp",
+  "groups": [
+  	{
+  		"name": "advanced",
+  		"displayName": "Advanced",
+  		"isExpanded": true
+  	}
+  ],
+  "inputs": [
+    {
+      "name": "apiToken",
+      "type": "string",
+      "label": "HockeyApp API token",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The API token generated from HockeyApp to authenticate your account"
+    },
+    {
+      "name": "binaryPath",
+      "type": "filePath",
+      "label": "Binary File Path",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Relative path from the repo root to the apk or ipa file you want to publish"
+    },
+    {
+      "name": "symbolPath",
+      "type": "filePath",
+      "label": "Symbols File Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Relative path from the repo root to the dSYM.zip (iOS) or mappings.txt (Android) file you want to publish"
+    },
+    {
+    	"name": "notesPath",
+    	"type": "filePath",
+    	"label": "Release notes (file)",
+    	"defaultValue": "",
+    	"required": false,
+    	"helpMarkDown": "The file where to get the release nodes for this app version from. If the path is provided then 'Release Nodes' is ignored."
+    },
+    {
+    	"name": "notes",
+    	"type": "multiLine",
+    	"label": "Release notes",
+    	"defaultValue": "",
+    	"required": false,
+    	"helpMarkDown": "What are the release notes for this app version"
+    },
+    {
+      "name": "mandatory",
+      "type": "boolean",
+      "label": "Mandatory?",
+      "defaultValue": "false",
+      "required": false,
+      "helpMarkDown": "Is this app mandatory by users"
+    },
+    {
+      "name": "notify",
+      "type": "boolean",
+      "label": "Notify users?",
+      "defaultValue": "false",
+      "required": false,
+      "helpMarkDown": "Would you like to notify your users that an update is available?"
+    },
+    {
+      "name": "tags",
+      "type": "string",
+      "label": "Tag(s)",
+      "defaultValue": "",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "A comma-seperated list of tag IDs you want to associate with the app"
+    },
+    {
+      "name": "teams",
+      "type": "string",
+      "label": "Team(s)",
+      "defaultValue": "",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "A comma-seperated list of team IDs you want to associate with the app"
+    },
+    {
+      "name": "users",
+      "type": "string",
+      "label": "User(s)",
+      "defaultValue": "",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "A comma-seperated list of users IDs you want to associate with the app"
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "hockeyApp.js",
+      "argumentFormat": ""
+    },
+    "PowerShell": {
+      "target": "$(currentDirectory)\\bootstrapper.ps1",
+      "argumentFormat": "",
+      "workingDirectory": "$(currentDirectory)"
+    }
+  }
+}

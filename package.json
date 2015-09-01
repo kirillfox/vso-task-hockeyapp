@@ -1,0 +1,18 @@
+{
+  "name": "vso-task-hockeyapp",
+  "version": "1.0.0",
+  "description": "A VSO build task for deploying a mobile app to HockeyApp",
+  "scripts": {
+    "deploy": "tfx build tasks upload ./ --overwrite"
+  },
+  "author": "Hani Atassi, Jonathan Carter",
+  "license": "MIT",
+  "peerDependencies": {
+    "tfx-cli": "^0.1.9"
+  },
+  "dependencies": {
+    "request": "^2.61.0",
+    "vso-task-lib": "^0.4.5",
+    "minimatch": "^2.0.10"
+  }
+}

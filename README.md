@@ -1,0 +1,1 @@
+Visual Studio Online deployment task for HockeyApp
