@@ -10,15 +10,18 @@ var fs = require("fs");
 
 var hockyAppUploadUrl = "https://rink.hockeyapp.net/api/2/apps/upload";
 
-var binaryPath = tl.getInput("binaryPath", true);
-var symbolsPath = tl.getInput("symbolsPath", false);
-var notesPath = tl.getInput("notesPath", false);
-var notes = tl.getInput("notes", false);
-var mandatory = tl.getInput("mandatory", false);
-var notify = tl.getInput("notify", false);
-var tags = tl.getInput("tags", false);
-var teams = tl.getInput("teams", false);
-var users = tl.getInput("users", false);
+var binaryPath = tl.getPathInput("binaryPath", /*required=*/ true, /*check=*/ true);
+var symbolsPath = tl.getPathInput("symbolsPath", /*required=*/ false, /*check=*/ false);
+var notesPath = tl.getPathInput("notesPath", /*required=*/ false, /*check=*/ false);
+var notes = tl.getInput("notes", /*required=*/ false);
+var mandatory = tl.getInput("mandatory", /*required=*/ false);
+var notify = tl.getInput("notify", /*required=*/ false);
+var tags = tl.getInput("tags", /*required=*/ false);
+var teams = tl.getInput("teams", /*required=*/ false);
+var users = tl.getInput("users", /*required=*/ false);
+
+symbolsPath = checkAndFixOptionalFilePath(symbolsPath);
+notesPath = checkAndFixOptionalFilePath(notesPath);
 
 var formData = {
 	ipa: fs.createReadStream(binaryPath),
@@ -56,3 +59,17 @@ request.post({
 		tl.exit(1);
 	}
 });
+
+function checkAndFixOptionalFilePath(path) {
+	if (path) {
+		if (fs.lstatSync(path).isDirectory()) {
+			// Path doesn't point to a file
+			path = null;
+		} else if (!fs.existsSync(path)) {
+			console.error('invalid path: ' + path);
+			tl.exit(1);
+		}
+	}
+	
+	return path;
+}
