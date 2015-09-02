@@ -7,9 +7,6 @@
   },
   "author": "Hani Atassi, Jonathan Carter",
   "license": "MIT",
-  "peerDependencies": {
-    "tfx-cli": "^0.1.9"
-  },
   "dependencies": {
     "request": "^2.61.0",
     "vso-task-lib": "^0.4.5",
