@@ -8,7 +8,17 @@ In order to deploy the task, you would need to install [tfx-cli](https://github.
 
 ## Deployment
 
-Login to your VSO project through the tfx-cli. Clone the repo then cd into the newly created directory and run the following command:
+Login to your VSO project through the tfx-cli.
+
+Install the package using npm: 
+
+```bash
+npm install http://aka.ms/vsohockeytask
+```
+
+(<i>Alternatively, you can clone the repo and run ```npm install```)
+
+Navigate to newly created directory (usually, node_modules/vso-hockyapp-task) and run the following command:
 
 ```bash
 tfx build tasks upload ./ --overwrite
