@@ -13,8 +13,8 @@
   "demands": [],
   "version": {
     "Major": "0",
-    "Minor": "7",
-    "Patch": "0"
+    "Minor": "9",
+    "Patch": "7"
   },
   "minimumAgentVersion": "1.83.0",
   "instanceNameFormat": "Deploy $(binaryPath) to HockeyApp",
@@ -43,7 +43,7 @@
       "helpMarkDown": "Relative path from the repo root to the apk or ipa file you want to publish"
     },
     {
-      "name": "symbolPath",
+      "name": "symbolsPath",
       "type": "filePath",
       "label": "Symbols File Path",
       "defaultValue": "",
@@ -56,7 +56,7 @@
     	"label": "Release notes (file)",
     	"defaultValue": "",
     	"required": false,
-    	"helpMarkDown": "The file where to get the release nodes for this app version from. If the path is provided then 'Release Nodes' is ignored."
+    	"helpMarkDown": "The file where to get the release notes for this app version from. If the path is provided then 'Release notes' is ignored."
     },
     {
     	"name": "notes",
