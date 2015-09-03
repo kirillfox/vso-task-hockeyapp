@@ -14,7 +14,7 @@
   "version": {
     "Major": "0",
     "Minor": "9",
-    "Patch": "7"
+    "Patch": "8"
   },
   "minimumAgentVersion": "1.83.0",
   "instanceNameFormat": "Deploy $(binaryPath) to HockeyApp",
@@ -48,7 +48,7 @@
       "label": "Symbols File Path",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Relative path from the repo root to the dSYM.zip (iOS) or mappings.txt (Android) file you want to publish"
+      "helpMarkDown": "Relative path from the repo root to the dSYM folder (iOS) or mappings.txt file (Android) file you want to publish"
     },
     {
     	"name": "notesPath",

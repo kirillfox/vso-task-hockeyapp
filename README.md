@@ -30,7 +30,7 @@ Once deployed, you should see a new build step named "HockyApp" under the Deploy
 
 * <b>HockeyApp API token</b> - required, The API token generated from HockeyApp to authenticate your account.
 * <b>Binary File Path</b> - required, Path to the apk or ipa file you want to publish.
-* <b>Symbols File Path</b> - Path to the dSYM.zip (iOS) or mappings.txt (Android) file you want to publish.
+* <b>Symbols File Path</b> - Path to the dSYM folder (iOS) or mappings.txt file (Android) file you want to publish.
 * <b>Release notes (file)</b> - Path to the file where to get the release notes. If this is provided then 'Release notes' is ignored.
 * <b>Release notes</b> - What are the release notes for this app version.
 * <b>Mandatory?</b> - Is this app mandatory by users?
