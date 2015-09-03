@@ -20,8 +20,8 @@ var binaryPath = tl.getPathInput("binaryPath", /*required=*/ true, /*check=*/ tr
 var symbolsPath = tl.getPathInput("symbolsPath", /*required=*/ false, /*check=*/ false);
 var notesPath = tl.getPathInput("notesPath", /*required=*/ false, /*check=*/ false);
 var notes = tl.getInput("notes", /*required=*/ false);
-var mandatory = tl.getInput("mandatory", /*required=*/ false);
-var notify = tl.getInput("notify", /*required=*/ false);
+var mandatory = tl.getInput("mandatory", /*required=*/ false) === "true";
+var notify = tl.getInput("notify", /*required=*/ false) === "true";
 var tags = tl.getInput("tags", /*required=*/ false);
 var teams = tl.getInput("teams", /*required=*/ false);
 var users = tl.getInput("users", /*required=*/ false);

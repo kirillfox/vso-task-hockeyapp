@@ -36,7 +36,7 @@ $env:INPUT_notes = $notes
 $env:INPUT_tags = $tags
 $env:INPUT_teams = $teams
 $env:INPUT_users = $users
-If ($mandatory -eq "true") { $env:INPUT_mandatory = 1 }
-If ($notify -eq "true") { $env:INPUT_notify = 1 }
+$env:INPUT_mandatory = $mandatory
+$env:INPUT_notify = $notify
 
 node hockeyApp.js
