@@ -73,7 +73,8 @@ request.post({
 
 function checkAndFixOptionalFilePath(path, name) {
 	if (path) {
-		if (path === tl.getVariable("BUILD_SOURCEDIRECTORY")) {
+		if (path === tl.getVariable("BUILD_SOURCEDIRECTORY") || 
+			path === tl.getVariable("BUILD_SOURCESDIRECTORY")) {
 			// Path points to the source root, ignore it
 			path = null;
 		} else {
