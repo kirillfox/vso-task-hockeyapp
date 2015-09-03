@@ -4,6 +4,7 @@
 */
 
 var fs = require("fs");
+var glob = require("glob");
 var path = require("path");
 var request = require("request");
 var tl = require("vso-task-lib");
@@ -16,9 +17,9 @@ var zip = new require('node-zip')();
 
 var hockyAppUploadUrl = "https://rink.hockeyapp.net/api/2/apps/upload";
 
-var binaryPath = tl.getPathInput("binaryPath", /*required=*/ true, /*check=*/ true);
-var symbolsPath = tl.getPathInput("symbolsPath", /*required=*/ false, /*check=*/ false);
-var notesPath = tl.getPathInput("notesPath", /*required=*/ false, /*check=*/ false);
+var binaryPath = resolveGlobPath(tl.getPathInput("binaryPath", /*required=*/ true, /*check=*/ false));
+var symbolsPath = resolveGlobPath(tl.getPathInput("symbolsPath", /*required=*/ false, /*check=*/ false));
+var notesPath = resolveGlobPath(tl.getPathInput("notesPath", /*required=*/ false, /*check=*/ false));
 var notes = tl.getInput("notes", /*required=*/ false);
 var mandatory = tl.getInput("mandatory", /*required=*/ false) === "true";
 var notify = tl.getInput("notify", /*required=*/ false) === "true";
@@ -26,12 +27,17 @@ var tags = tl.getInput("tags", /*required=*/ false);
 var teams = tl.getInput("teams", /*required=*/ false);
 var users = tl.getInput("users", /*required=*/ false);
 
-symbolsPath = checkAndFixOptionalFilePath(symbolsPath, "symbolsPath");
-notesPath = checkAndFixOptionalFilePath(notesPath, "notesPath");
+binaryPath = checkAndFixFilePath(binaryPath, "symbolsPath");
+symbolsPath = checkAndFixFilePath(symbolsPath, "symbolsPath");
+notesPath = checkAndFixFilePath(notesPath, "notesPath");
 
 if (symbolsPath && fs.lstatSync(symbolsPath).isDirectory()) {
 	symbolsPath = packageSymbols(symbolsPath);
 }
+
+tl.debug("binaryPath: " + binaryPath || "");
+tl.debug("symbolsPath: " + symbolsPath || "");
+tl.debug("notesPath: " + notesPath || "");
 
 var formData = {
 	ipa: fs.createReadStream(binaryPath),
@@ -71,19 +77,25 @@ request.post({
 	}
 });
 
-function checkAndFixOptionalFilePath(path, name) {
-	if (path) {
-		if (path === tl.getVariable("BUILD_SOURCEDIRECTORY") || 
-			path === tl.getVariable("BUILD_SOURCESDIRECTORY")) {
+function arePathEqual(p1, p2) {
+	if (!p1 && !p2) return true;
+	else if (!p1 || !p2) return false;
+	else return path.normalize(p1 || "") === path.normalize(p2 || "");
+}
+
+function checkAndFixFilePath(p, name) {
+	if (p) {
+		if (arePathEqual(p, tl.getVariable("BUILD_SOURCEDIRECTORY")) || 
+			arePathEqual(p, tl.getVariable("BUILD_SOURCESDIRECTORY"))) {
 			// Path points to the source root, ignore it
-			path = null;
+			p = null;
 		} else {
 			// will error and fail task if it doesn't exist.
-			tl.checkPath(path, name);
+			tl.checkPath(p, name);
 		}
 	}
 	
-	return path;
+	return p;
 }
 
 function getAllFiles(rootPath, recursive) {
@@ -128,4 +140,15 @@ function packageSymbols(symbolsPath) {
 	fs.writeFileSync(packagePath, data, 'binary');
 	
 	return packagePath;
+}
+
+function resolveGlobPath(path) {
+	if (path) {
+		var filesList = glob.sync(path);
+		if (filesList.length > 0) {
+			path = filesList[0];
+		}
+	}
+	
+	return path;
 }

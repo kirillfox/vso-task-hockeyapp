@@ -14,7 +14,7 @@
   "version": {
     "Major": "0",
     "Minor": "9",
-    "Patch": "9"
+    "Patch": "11"
   },
   "minimumAgentVersion": "1.83.0",
   "instanceNameFormat": "Deploy $(binaryPath) to HockeyApp",
