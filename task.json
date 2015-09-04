@@ -10,20 +10,22 @@
     "Build",
     "Release"
   ],
-  "demands": [],
+  "demands": [
+    "node"
+  ],
   "version": {
     "Major": "0",
     "Minor": "9",
-    "Patch": "11"
+    "Patch": "15"
   },
   "minimumAgentVersion": "1.83.0",
   "instanceNameFormat": "Deploy $(binaryPath) to HockeyApp",
   "groups": [
-  	{
-  		"name": "advanced",
-  		"displayName": "Advanced",
-  		"isExpanded": true
-  	}
+    {
+      "name": "restrictions",
+      "displayName": "Download Restrictions",
+      "isExpanded": true
+    }
   ],
   "inputs": [
     {
@@ -33,6 +35,14 @@
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "The API token generated from HockeyApp to authenticate your account"
+    },
+    {
+      "name": "appID",
+      "type": "string",
+      "label": "App ID",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "The ID of the app you’d like to upload a new build for. Leave empty to allow HockeyApp to infer the app ID automatically"
     },
     {
       "name": "binaryPath",
@@ -51,20 +61,28 @@
       "helpMarkDown": "Relative path from the repo root to the dSYM folder (iOS) or mappings.txt file (Android) file you want to publish"
     },
     {
-    	"name": "notesPath",
-    	"type": "filePath",
-    	"label": "Release notes (file)",
-    	"defaultValue": "",
-    	"required": false,
-    	"helpMarkDown": "The file where to get the release notes for this app version from. If the path is provided then 'Release notes' is ignored."
+      "name": "notesPath",
+      "type": "filePath",
+      "label": "Release Notes (File)",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "The file where to get the release notes for this app version from. If the path is provided then 'Release notes' is ignored."
     },
     {
-    	"name": "notes",
-    	"type": "multiLine",
-    	"label": "Release notes",
-    	"defaultValue": "",
-    	"required": false,
-    	"helpMarkDown": "What are the release notes for this app version"
+      "name": "notes",
+      "type": "multiLine",
+      "label": "Release Notes",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "What are the release notes for this app version"
+    },
+    {
+      "name": "publish",
+      "type": "boolean",
+      "label": "Publish?",
+      "defaultValue": "true",
+      "required": false,
+      "helpMarkDown": "Is this app downloadable by users"
     },
     {
       "name": "mandatory",
@@ -77,7 +95,7 @@
     {
       "name": "notify",
       "type": "boolean",
-      "label": "Notify users?",
+      "label": "Notify Users?",
       "defaultValue": "false",
       "required": false,
       "helpMarkDown": "Would you like to notify your users that an update is available?"
@@ -88,8 +106,8 @@
       "label": "Tag(s)",
       "defaultValue": "",
       "required": false,
-      "groupName": "advanced",
-      "helpMarkDown": "A comma-seperated list of tag IDs you want to associate with the app"
+      "groupName": "restrictions",
+      "helpMarkDown": "Restrict download to comma-separated list of tags"
     },
     {
       "name": "teams",
@@ -97,8 +115,8 @@
       "label": "Team(s)",
       "defaultValue": "",
       "required": false,
-      "groupName": "advanced",
-      "helpMarkDown": "A comma-seperated list of team IDs you want to associate with the app"
+      "groupName": "restrictions",
+      "helpMarkDown": "Restrict download to comma-separated list of team IDs; example: 12,23,34"
     },
     {
       "name": "users",
@@ -106,8 +124,8 @@
       "label": "User(s)",
       "defaultValue": "",
       "required": false,
-      "groupName": "advanced",
-      "helpMarkDown": "A comma-seperated list of users IDs you want to associate with the app"
+      "groupName": "restrictions",
+      "helpMarkDown": "Restrict download to comma-separated list of user IDs; example: 1234,5678"
     }
   ],
   "execution": {
