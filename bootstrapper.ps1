@@ -14,19 +14,7 @@ param (
     [string]$tags,
     [string]$teams,
     [string]$users
-)
-
-echo "Entering HockyApp Task"
-echo "apiToken = $apiToken"
-echo "binaryPath = $binaryPath"
-echo "symbolsPath = $symbolsPath"
-echo "notesPath = $notesPath"
-echo "notes = $notes"
-echo "mandatory = $mandatory"
-echo "notify = $notify"
-echo "tags = $tags"
-echo "teams = $teams"
-echo "users = $users"   
+) 
   
 $env:INPUT_apiToken = $apiToken
 $env:INPUT_binaryPath = $binaryPath
