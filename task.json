@@ -11,7 +11,7 @@
     "Release"
   ],
   "demands": [
-    "node"
+    "npm"
   ],
   "version": {
     "Major": "0",
