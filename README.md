@@ -1,26 +1,23 @@
 # Visual Studio Online deployment task for HockeyApp
 
-This task allows you to automate deployment to HockyApp from Visual Studio Online.
+This task allows you to automate deployment from [Visual Studio Online](https://www.visualstudio.com/products/what-is-visual-studio-online-vs) to [HockeyApp](http://hockeyapp.net).
 
 ## Prerequisites
 
-In order to deploy the task, you would need to install [tfx-cli](https://github.com/Microsoft/tfs-cli). 
+In order to deploy the task in your Visual Studio Online instance, you need to install [tfx-cli](https://github.com/Microsoft/tfs-cli) and sign in with a [personal access token](http://roadtoalm.com/2015/07/22/using-personal-access-tokens-to-access-visual-studio-online/):
+
+```bash
+sudo npm install -g tfx-cli
+tfx login
+```
 
 ## Deployment
-
-Login to your VSO project through the tfx-cli.
 
 Install the package using npm: 
 
 ```bash
 npm install http://aka.ms/vsohockeytask
-```
-
-(<i>Alternatively, you can clone the repo and run ```npm install```)
-
-Navigate to newly created directory (usually, node_modules/vso-hockyapp-task) and run the following command:
-
-```bash
+cd node_modules/vso-hockyapp-task
 tfx build tasks upload ./ --overwrite
 ```
 
@@ -29,8 +26,8 @@ tfx build tasks upload ./ --overwrite
 Once deployed, you should see a new build step named "HockyApp" under the Deploy group inside Build Steps. After you add it, configure it with these values:
 
 * <b>HockeyApp API token</b> - required, The API token generated from HockeyApp to authenticate your account.
-* <b>App ID</b> - The ID of the app you’d like to upload a new build for. Leave empty to allow HockeyApp to infer the app ID automatically.
-* <b>Binary File Path</b> - required, Path to the apk or ipa file you want to publish.
+* <b>App ID</b> - The ID of the app you’d like to upload a new build for. Leave empty to allow HockeyApp to infer the app ID automatically from the bundle identifier or package name.
+* <b>Binary File Path</b> - required, Path to the ipa (iOS) or apk (Android) file you want to publish.
 * <b>Symbols File Path</b> - Path to the dSYM folder (iOS) or mappings.txt file (Android) file you want to publish.
 * <b>Release Notes (File)</b> - Path to the file where to get the release notes. If this is provided then 'Release notes' is ignored.
 * <b>Release Notes</b> - What are the release notes for this app version.
