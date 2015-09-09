@@ -17,13 +17,18 @@ Install the package using npm:
 
 ```bash
 npm install http://aka.ms/vsohockeytask
-cd node_modules/vso-hockyapp-task
+```
+
+Then upload it to your Visual Studio Online instance:
+
+```bash
+cd node_modules/vso-hockeyapp-task
 tfx build tasks upload ./ --overwrite
 ```
 
 ## Usage
 
-Once deployed, you should see a new build step named "HockyApp" under the Deploy group inside Build Steps. After you add it, configure it with these values:
+Once deployed, you should see a new build step named "HockeyApp" under the Deploy group inside Build Steps. After you add it, configure it with these values:
 
 * <b>HockeyApp API token</b> - required, The API token generated from HockeyApp to authenticate your account.
 * <b>App ID</b> - The ID of the app you’d like to upload a new build for. Leave empty to allow HockeyApp to infer the app ID automatically from the bundle identifier or package name.
