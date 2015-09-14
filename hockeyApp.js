@@ -8,7 +8,7 @@ var glob = require("glob");
 var path = require("path");
 var request = require("request");
 var tl = require("vso-task-lib");
-var zip = new require('node-zip')();
+var Zip = require('node-zip');
 
 // Output all env variables
 //for (var envName in process.env) {
@@ -25,6 +25,7 @@ if (appID) {
 var apiToken = tl.getInput("apiToken", true);
 var binaryPath = resolveGlobPath(tl.getPathInput("binaryPath", /*required=*/ true, /*check=*/ false));
 var symbolsPath = resolveGlobPath(tl.getPathInput("symbolsPath", /*required=*/ false, /*check=*/ false));
+var nativeLibraryPath = resolveGlobPath(tl.getPathInput("nativeLibraryPath", /*required=*/ false, /*check=*/ false));
 var notesPath = resolveGlobPath(tl.getPathInput("notesPath", /*required=*/ false, /*check=*/ false));
 var notes = tl.getInput("notes", /*required=*/ false);
 var publish = tl.getInput("publish", /*required=*/ false) === "true";
@@ -36,10 +37,17 @@ var users = tl.getInput("users", /*required=*/ false);
 
 binaryPath = checkAndFixFilePath(binaryPath, "symbolsPath");
 symbolsPath = checkAndFixFilePath(symbolsPath, "symbolsPath");
+nativeLibraryPath = checkAndFixFilePath(nativeLibraryPath, "nativeLibraryPath");
 notesPath = checkAndFixFilePath(notesPath, "notesPath");
 
 if (symbolsPath && fs.lstatSync(symbolsPath).isDirectory()) {
     symbolsPath = packageSymbols(symbolsPath);
+}
+
+// Native libraries must always be zipped, and therefore
+// we simply check for the presence of a path before zipping
+if (nativeLibraryPath) {
+    nativeLibraryPath = packageNativeLibraries(nativeLibraryPath);
 }
 
 tl.debug("binaryPath: " + binaryPath || "");
@@ -50,6 +58,7 @@ var formData = {
     ipa: fs.createReadStream(binaryPath),
     dsym: symbolsPath ? fs.createReadStream(symbolsPath) : null,
     notes: notesPath ? fs.readFileSync(notesPath) : notes,
+    lib: nativeLibraryPath ? fs.createReadStream(nativeLibraryPath) : null,
     notes_type: "1", // Markdown
     mandatory: mandatory ? "1" : "0",
     notify: notify ? "1" :"0",
@@ -136,6 +145,7 @@ function packageSymbols(symbolsPath) {
 
     tl.debug("Creating a symbols package file: " + packagePath);
 
+    var zip = new Zip();
     var filePaths = getAllFiles(symbolsPath, /*recursive=*/ true);
     for (var i = 0; i < filePaths.length; i++) {
         var filePath = filePaths[i];
@@ -145,6 +155,21 @@ function packageSymbols(symbolsPath) {
 
     var data = zip.generate({ base64: false, compression: 'DEFLATE' });
     fs.writeFileSync(packagePath, data, 'binary');
+
+    return packagePath;
+}
+
+function packageNativeLibraries(nativeLibraryPath) {
+    var packageName = path.basename(nativeLibraryPath) + ".zip"
+    var packagePath = path.join(path.dirname(nativeLibraryPath), packageName);
+
+    tl.debug("Creating a native library file: " + packagePath);
+
+    // TODO: Add support for wildcard paths
+    var zip = new Zip();
+    zip.file(path.basename(nativeLibraryPath), fs.readFileSync(nativeLibraryPath));
+    var data = zip.generate({ base64: false, compression: "DEFLATE" });
+    fs.writeFileSync(packagePath, data, "binary");
 
     return packagePath;
 }

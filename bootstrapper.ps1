@@ -8,6 +8,7 @@ param (
     [string]$appID,
     [string]$binaryPath,
     [string]$symbolsPath,
+    [string]$nativeLibraryPath,
     [string]$notesPath,
     [string]$notes,
     [string]$publish,
@@ -30,5 +31,6 @@ $env:INPUT_notify = $notify
 $env:INPUT_tags = $tags
 $env:INPUT_teams = $teams
 $env:INPUT_users = $users
+$env:INPUT_nativeLibraryPath = $nativeLibraryPath
 
 node hockeyApp.js

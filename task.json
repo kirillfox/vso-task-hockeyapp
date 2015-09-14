@@ -16,7 +16,7 @@
   "version": {
     "Major": "0",
     "Minor": "9",
-    "Patch": "15"
+    "Patch": "16"
   },
   "minimumAgentVersion": "1.83.0",
   "instanceNameFormat": "Deploy $(binaryPath) to HockeyApp",
@@ -59,6 +59,14 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "Relative path from the repo root to the dSYM folder (iOS) or mappings.txt file (Android) file you want to publish"
+    },
+    {
+      "name": "nativeLibraryPath",
+      "type": "filePath",
+      "label": "Native Library File Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Relative path from the repo root to additional native libraries you want to publish (e.g. so files)"
     },
     {
       "name": "notesPath",
