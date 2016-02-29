@@ -35,7 +35,7 @@ var tags = tl.getInput("tags", /*required=*/ false);
 var teams = tl.getInput("teams", /*required=*/ false);
 var users = tl.getInput("users", /*required=*/ false);
 
-binaryPath = checkAndFixFilePath(binaryPath, "symbolsPath");
+binaryPath = checkAndFixFilePath(binaryPath, "binaryPath");
 symbolsPath = checkAndFixFilePath(symbolsPath, "symbolsPath");
 nativeLibraryPath = checkAndFixFilePath(nativeLibraryPath, "nativeLibraryPath");
 notesPath = checkAndFixFilePath(notesPath, "notesPath");
